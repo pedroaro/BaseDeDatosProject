@@ -103,7 +103,7 @@ CREATE TABLE Equipo_Entrenador(
 );
 
 CREATE TABLE Batalla(
-	id_batalla NUMBER CHECK (id_batalla >= 0) PRIMARY KEY,
+	id_batalla NUMBER CHECK (id_batalla >= 0),
 	id_entrenador1 NUMBER CHECK (id_entrenador1 >= 0),
 	id_pokemon1 NUMBER CHECK (id_pokemon1 >= 0),
 	id_entrenador2 NUMBER CHECK (id_entrenador2 >= 0),
@@ -112,6 +112,7 @@ CREATE TABLE Batalla(
 	exp_ganada NUMBER CHECK (exp_ganada >= 0),
 	pokemon_ganador NUMBER CHECK (pokemon_ganador >= 0),
 	entrenador_ganador NUMBER CHECK (entrenador_ganador >= 0),
+	PRIMARY KEY(id_batalla, id_entrenador1, id_pokemon1, id_entrenador2, id_pokemon2),
 	FOREIGN KEY (id_entrenador1) REFERENCES Entrenador(id),
 	FOREIGN KEY (id_entrenador2) REFERENCES Entrenador(id),
 	FOREIGN KEY (id_pokemon1) REFERENCES Pokemon(id),
