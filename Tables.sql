@@ -36,7 +36,7 @@ CREATE TABLE Pokemon_Tipo(
 CREATE TABLE Habilidad(
 	id NUMBER PRIMARY KEY CHECK (id >= 0),
 	nombre VARCHAR2(50) NOT NULL,
-	descripcion VARCHAR2(50)
+	descripcion VARCHAR2(200)
 );
 
 CREATE TABLE Pokedex(
@@ -62,7 +62,7 @@ CREATE TABLE Ataque(
 	poder NUMBER CHECK (poder >= 0),
 	presicion NUMBER CHECK (presicion >= 0),
 	cantidad_veces NUMBER CHECK (cantidad_veces >= 0),
-	descripcion VARCHAR2(50),
+	descripcion VARCHAR2(200),
 	id_tipo NUMBER CHECK (id_tipo >= 0),
 	FOREIGN KEY (id_tipo) REFERENCES Tipo(id)
 );
