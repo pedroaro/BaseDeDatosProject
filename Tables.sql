@@ -30,7 +30,8 @@ CREATE TABLE Pokemon_Tipo(
 	id_tipo2 NUMBER CHECK (id_tipo2 >= 0),
 	PRIMARY KEY(id_pokemon, id_tipo1),
 	FOREIGN KEY (id_pokemon) REFERENCES Pokemon(id),
-	FOREIGN KEY (id_tipo1, id_tipo2) REFERENCES Tipo(id, id)
+	FOREIGN KEY (id_tipo1) REFERENCES Tipo(id),
+	FOREIGN KEY (id_tipo2) REFERENCES Tipo(id)
 );
 
 CREATE TABLE Habilidad(
