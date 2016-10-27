@@ -83,3 +83,47 @@ BEGIN
 	END IF;
 END;
 /
+
+--Actualizar Resumen_torneo:
+
+CREATE OR REPLACE TRIGGER refresh_championship
+	AFTER INSERT ON Batalla
+	FOR EACH ROW
+DECLARE
+	octavos_count NUMBER;
+	cuartos_count NUMBER;
+	semifinal_count NUMBER;
+	today DATE;
+BEGIN
+	SELECT COUNT(*) INTO octavos_count
+	FROM Resumen_Torneo
+	WHERE fase = 'Octavos';
+
+	SELECT sysdate INTO today;
+	FROM dual;
+
+	IF (octavos_count < 16)
+		INSERT INTO Resumen_Torneo
+		VALUES (:NEW.id_entrenador1, :NEW.id_entrenador2, "Octavos", today, :NEW.entranador_ganador);
+	ELSE
+		SELECT COUNT (*) INTO cuartos_count
+		FROM Resumen_Torneo
+		WHERE fase = 'Cuartos';
+
+		IF (cuartos_count < 8)
+			INSERT INTO Resumen_Torneo
+			VALUES (:NEW.id_entrenador1, :NEW.id_entrenador2, "Cuartos", today, :NEW.entranador_ganador);
+		ELSE
+			SELECT COUNT (*) INTO semifinal_count
+			FROM Resumen_Torneo
+			WHERE fase = 'Semifinal';
+
+			IF (semifinal_count < 4)
+				INSERT INTO Resumen_Torneo
+				VALUES (:NEW.id_entrenador1, :NEW.id_entrenador2, "Semifinal", today, :NEW.entranador_ganador);
+			ELSE
+				INSERT INTO Resumen_Torneo
+				VALUES (:NEW.id_entrenador1, :NEW.id_entrenador2, "Final", today, :NEW.entranador_ganador);
+			END IF;
+END;
+/
