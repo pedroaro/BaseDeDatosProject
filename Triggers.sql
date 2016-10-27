@@ -1,7 +1,7 @@
 --Triggers
 --Parte A:
 CREATE OR REPLACE TRIGGER only_sixten_trainers
-  BEFORE UPDATE OR INSERT ON Entrenador
+  BEFORE INSERT ON Entrenador
   FOR EACH ROW
 DECLARE
   trainer_count  INTEGER;      --# of depts for this employee
@@ -11,7 +11,7 @@ BEGIN
    	FROM Entrenador
   	WHERE id_pokedex != NULL;
 
-	IF trainer_count >= max_trainer THEN
+	IF trainer_count = max_trainer THEN
     		RAISE_APPLICATION_ERROR (-20000,'Trainers are limited to a max of 16');
 	END IF;
 END;
