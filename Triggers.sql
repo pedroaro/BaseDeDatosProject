@@ -33,3 +33,14 @@ BEGIN
 	END IF;
 END;
 /
+
+--Parte E:
+CREATE OR REPLACE TRIGGER unique_attack
+	BEFORE INSERT ON Equipo_Entrenador
+	FOR EACH ROW
+BEGIN
+	IF (:NEW.id_ataque1 = :NEW.id_ataque2 OR :NEW.id_ataque1 = :NEW.id_ataque3 OR :NEW.id_ataque1 = :NEW.id_ataque4 OR :NEW.id_ataque2 = :NEW.id_ataque3 OR :NEW.id_ataque2 = :NEW.id_ataque4 OR :NEW.id_ataque3 = :NEW.id_ataque4) THEN
+		RAISE_APPLICATION_ERROR(-20601,'The ids of attack have to be diferents');
+	END IF;
+END;
+/
