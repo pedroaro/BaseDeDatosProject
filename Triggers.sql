@@ -1,4 +1,5 @@
 --Triggers
+
 --Parte A:
 CREATE OR REPLACE TRIGGER only_sixten_trainers
   BEFORE INSERT ON Entrenador
@@ -16,6 +17,44 @@ BEGIN
 	END IF;
 END;
 /
+
+
+--16 entrenadores antes de insertar una batalla
+
+CREATE OR REPLACE TRIGGER sixteen_trainers
+	BEFORE INSERT ON Batalla
+	FOR EACH ROW
+DECLARE
+ 	trainer_count NUMBER;
+BEGIN
+ 	SELECT COUNT(*) INTO trainer_count
+   	FROM Entrenador
+  	WHERE id_pokedex != NULL;
+
+  	IF (trainer_count < 16) THEN
+  		RAISE_APPLICATION_ERROR(-20601, 'Before insert on Batalla, Entrenador have to have a min of 16 trainers');
+	END IF;
+END;
+/
+
+
+--Parte C:
+
+CREATE OR REPLACE TRIGGER twenty_skills
+	BEFORE INSERT ON Batalla
+	FOR EACH ROW
+DECLARE
+	skills_count NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO skills_count
+	FROM Habilidad
+
+	IF (abilities_count < 20) THEN
+		RAISE_APPLICATION_ERROR(-20601, 'Before insert on Batalla, There must be a minimun of 20 skills');
+	END IF;
+END;
+/
+
 
 --Parte D:
 CREATE OR REPLACE TRIGGER unique_pokemon
