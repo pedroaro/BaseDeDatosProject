@@ -1,0 +1,18 @@
+INSERT ALL
+INTO Entrenador VALUES (1, 'pepe', 'valencia', 49, to_date('20160818', 'YYYYMMDD'), 1)
+INTO Entrenador VALUES (2, 'pedro', 'caracas', 62, to_date('20160918', 'YYYYMMDD'), 2) 
+INTO Entrenador VALUES (3, 'alex', 'vancouver', 82, to_date('20160518', 'YYYYMMDD'), 3)
+INTO Entrenador VALUES (4, 'maria', 'maracay', 52, to_date('20160816', 'YYYYMMDD'), 4)
+INTO Entrenador VALUES (5, 'jose', 'valencia', 64, to_date('20160814', 'YYYYMMDD'), 5)
+INTO Entrenador VALUES (6, 'angeles', 'caracas', 84, to_date('20160128', 'YYYYMMDD'), 6)
+INTO Entrenador VALUES (7, 'juan', 'maracaibo', 48, to_date('20160212', 'YYYYMMDD'), 7)
+INTO Entrenador VALUES (8, 'miguel', 'caracas', 63, to_date('20160912', 'YYYYMMDD'), 8)
+INTO Entrenador VALUES (9, 'andres', 'valencia', 83, to_date('20161005', 'YYYYMMDD'), 9)
+INTO Entrenador VALUES (10, 'carlos', 'caracas', 30, to_date('20160509', 'YYYYMMDD'), 10)
+INTO Entrenador VALUES (11, 'oriana', 'caracas', 20, to_date('20160911', 'YYYYMMDD'), 11)
+INTO Entrenador VALUES (12, 'pancho', 'maracay', 45, to_date('20160715', 'YYYYMMDD'), 12)
+INTO Entrenador VALUES (13, 'esteban', 'valencia', 35, to_date('20160208', 'YYYYMMDD'), 13)
+INTO Entrenador VALUES (14, 'misty', 'pueblo paleta', 25, to_date('20160528', 'YYYYMMDD'), 14)
+INTO Entrenador VALUES (15, 'brook', 'pueblo paleta', 90, to_date('20160412', 'YYYYMMDD'), 15)
+INTO Entrenador VALUES (16, 'ash', 'pueblo paleta', 45, to_date('20160118', 'YYYYMMDD'), 16)
+SELECT 1 FROM DUAL;
