@@ -18,7 +18,6 @@ BEGIN
 END;
 /
 
-
 --16 entrenadores antes de insertar una batalla
 
 CREATE OR REPLACE TRIGGER sixteen_trainers
@@ -32,7 +31,7 @@ BEGIN
   	WHERE id_pokedex != NULL;
 
   	IF (trainer_count < 16) THEN
-  		RAISE_APPLICATION_ERROR(-20601, 'Before insert on Batalla, Entrenador have to have a min of 16 trainers');
+  		RAISE_APPLICATION_ERROR(-20601, 'Before insert on Batalla, Entrenador need to have a min of 16 trainers');
 	END IF;
 END;
 /
@@ -47,9 +46,9 @@ DECLARE
 	skills_count NUMBER;
 BEGIN
 	SELECT COUNT(*) INTO skills_count
-	FROM Habilidad
+	FROM Habilidad;
 
-	IF (abilities_count < 20) THEN
+	IF (skills_count < 20) THEN
 		RAISE_APPLICATION_ERROR(-20601, 'Before insert on Batalla, There must be a minimun of 20 skills');
 	END IF;
 END;
@@ -90,40 +89,32 @@ CREATE OR REPLACE TRIGGER refresh_championship
 	AFTER INSERT ON Batalla
 	FOR EACH ROW
 DECLARE
-	octavos_count NUMBER;
-	cuartos_count NUMBER;
-	semifinal_count NUMBER;
+	contador NUMBER;
 	today DATE;
 BEGIN
-	SELECT COUNT(*) INTO octavos_count
-	FROM Resumen_Torneo
-	WHERE fase = 'Octavos';
+	SELECT COUNT(*) INTO contador
+	FROM Resumen_Torneo;
 
-	SELECT sysdate INTO today;
+	SELECT sysdate INTO today
 	FROM dual;
 
-	IF (octavos_count < 16)
+	IF (contador < 8 and :NEW.entrenador_ganador != NULL) THEN
 		INSERT INTO Resumen_Torneo
-		VALUES (:NEW.id_entrenador1, :NEW.id_entrenador2, "Octavos", today, :NEW.entranador_ganador);
+		VALUES (:NEW.id_entrenador1, :NEW.id_entrenador2, 'Octavos', today, :NEW.entrenador_ganador);
 	ELSE
-		SELECT COUNT (*) INTO cuartos_count
-		FROM Resumen_Torneo
-		WHERE fase = 'Cuartos';
-
-		IF (cuartos_count < 8)
+		IF (contador < 12 and :NEW.entrenador_ganador != NULL) THEN
 			INSERT INTO Resumen_Torneo
-			VALUES (:NEW.id_entrenador1, :NEW.id_entrenador2, "Cuartos", today, :NEW.entranador_ganador);
+			VALUES (:NEW.id_entrenador1, :NEW.id_entrenador2, 'Cuartos', today, :NEW.entrenador_ganador);
 		ELSE
-			SELECT COUNT (*) INTO semifinal_count
-			FROM Resumen_Torneo
-			WHERE fase = 'Semifinal';
-
-			IF (semifinal_count < 4)
+			IF (contador < 14 and :NEW.entrenador_ganador != NULL) THEN
 				INSERT INTO Resumen_Torneo
-				VALUES (:NEW.id_entrenador1, :NEW.id_entrenador2, "Semifinal", today, :NEW.entranador_ganador);
-			ELSE
+				VALUES (:NEW.id_entrenador1, :NEW.id_entrenador2, 'Semifinal', today, :NEW.entrenador_ganador);
+			ELSIF (contador = 15 and :NEW.entrenador_ganador != NULL) THEN
 				INSERT INTO Resumen_Torneo
-				VALUES (:NEW.id_entrenador1, :NEW.id_entrenador2, "Final", today, :NEW.entranador_ganador);
+				VALUES (:NEW.id_entrenador1, :NEW.id_entrenador2, 'Final', today, :NEW.entrenador_ganador);
 			END IF;
+		END IF;
+	END IF;
+
 END;
 /
