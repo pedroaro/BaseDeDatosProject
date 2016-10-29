@@ -12,7 +12,7 @@ BEGIN
    	FROM Entrenador;
 
 	IF (trainer_count = max_trainer) THEN
-    		RAISE_APPLICATION_ERROR (-20000,'Trainers are limited to a max of 16');
+    	RAISE_APPLICATION_ERROR (-20000,'Trainers are limited to a max of 16');
 	END IF;
 	IF (:NEW.id_pokedex = NULL) THEN
 		RAISE_APPLICATION_ERROR (-20010,'TRAINERS NEED A POKEDEX!!!');
@@ -97,23 +97,24 @@ BEGIN
 	SELECT sysdate INTO today
 	FROM dual;
 
-	IF (contador < 8 and :NEW.entrenador_ganador != NULL) THEN
-		INSERT INTO Resumen_Torneo
-		VALUES (:NEW.id_entrenador1, :NEW.id_entrenador2, 'Octavos', today, :NEW.entrenador_ganador);
-	ELSE
-		IF (contador < 12 and :NEW.entrenador_ganador != NULL) THEN
+	IF(:NEW.entrenador_ganador != NULL) THEN
+		IF (contador < 8) THEN
 			INSERT INTO Resumen_Torneo
-			VALUES (:NEW.id_entrenador1, :NEW.id_entrenador2, 'Cuartos', today, :NEW.entrenador_ganador);
+			VALUES (:NEW.id_entrenador1, :NEW.id_entrenador2, 'Octavos', today, :NEW.entrenador_ganador);
 		ELSE
-			IF (contador < 14 and :NEW.entrenador_ganador != NULL) THEN
+			IF (contador < 12) THEN
 				INSERT INTO Resumen_Torneo
-				VALUES (:NEW.id_entrenador1, :NEW.id_entrenador2, 'Semifinal', today, :NEW.entrenador_ganador);
-			ELSIF (contador = 15 and :NEW.entrenador_ganador != NULL) THEN
-				INSERT INTO Resumen_Torneo
-				VALUES (:NEW.id_entrenador1, :NEW.id_entrenador2, 'Final', today, :NEW.entrenador_ganador);
+				VALUES (:NEW.id_entrenador1, :NEW.id_entrenador2, 'Cuartos', today, :NEW.entrenador_ganador);
+			ELSE
+				IF (contador < 14) THEN
+					INSERT INTO Resumen_Torneo
+					VALUES (:NEW.id_entrenador1, :NEW.id_entrenador2, 'Semifinal', today, :NEW.entrenador_ganador);
+				ELSIF (contador = 15) THEN
+					INSERT INTO Resumen_Torneo
+					VALUES (:NEW.id_entrenador1, :NEW.id_entrenador2, 'Final', today, :NEW.entrenador_ganador);
+				END IF;
 			END IF;
 		END IF;
 	END IF;
-
 END;
 /
