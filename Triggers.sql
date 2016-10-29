@@ -9,11 +9,13 @@ DECLARE
   max_trainer   INTEGER := 16; --max number of depts per trainer.
 BEGIN
  	SELECT COUNT(*) INTO trainer_count
-   	FROM Entrenador
-  	WHERE id_pokedex != NULL;
+   	FROM Entrenador;
 
-	IF trainer_count = max_trainer THEN
+	IF (trainer_count = max_trainer) THEN
     		RAISE_APPLICATION_ERROR (-20000,'Trainers are limited to a max of 16');
+	END IF;
+	IF (:NEW.id_pokedex = NULL) THEN
+		RAISE_APPLICATION_ERROR (-20010,'TRAINERS NEED A POKEDEX!!!');
 	END IF;
 END;
 /
@@ -27,15 +29,13 @@ DECLARE
  	trainer_count NUMBER;
 BEGIN
  	SELECT COUNT(*) INTO trainer_count
-   	FROM Entrenador
-  	WHERE id_pokedex != NULL;
+   	FROM Entrenador;
 
   	IF (trainer_count < 16) THEN
-  		RAISE_APPLICATION_ERROR(-20601, 'Before insert on Batalla, Entrenador need to have a min of 16 trainers');
+  		RAISE_APPLICATION_ERROR(-20600, 'Before insert on Batalla, Entrenador need to have a min of 16 trainers');
 	END IF;
 END;
 /
-
 
 --Parte C:
 
@@ -54,7 +54,6 @@ BEGIN
 END;
 /
 
-
 --Parte D:
 CREATE OR REPLACE TRIGGER unique_pokemon
 	BEFORE INSERT ON Equipo_Entrenador
@@ -67,7 +66,7 @@ BEGIN
 	WHERE :NEW.id_pokemon = :OLD.id_pokemon;
 
 	IF (pokemons_of_team > 0) THEN
-		RAISE_APPLICATION_ERROR(-20601,'The team of the trainer can not have repeated pokemons');
+		RAISE_APPLICATION_ERROR(-20603,'The team of the trainer can not have repeated pokemons');
 	END IF;
 END;
 /
@@ -78,7 +77,7 @@ CREATE OR REPLACE TRIGGER unique_attack
 	FOR EACH ROW
 BEGIN
 	IF (:NEW.id_ataque1 = :NEW.id_ataque2 OR :NEW.id_ataque1 = :NEW.id_ataque3 OR :NEW.id_ataque1 = :NEW.id_ataque4 OR :NEW.id_ataque2 = :NEW.id_ataque3 OR :NEW.id_ataque2 = :NEW.id_ataque4 OR :NEW.id_ataque3 = :NEW.id_ataque4) THEN
-		RAISE_APPLICATION_ERROR(-20601,'The ids of attack have to be diferents');
+		RAISE_APPLICATION_ERROR(-20602,'The ids of attack have to be diferents');
 	END IF;
 END;
 /
