@@ -16,6 +16,24 @@ WHERE id IN
 				WHERE nombre = 'agua'))
 ORDER BY ataque DESC;
 
+--Informacion de entrenadores con mas pokemones conseguidos
+SELECT E.*
+FROM Entrenador E,
+(	SELECT id, cantidad_obtenidos as pokemones
+		FROM pokedex 
+		ORDER BY pokemones DESC) T1
+WHERE E.id_pokedex = T1.id AND ROWNUM<= 5;
+
+--Imprimir equipo que tenga mas dinero que el promedio
+SELECT T1.NombreP, T1.NombreE, T1.dinero, DIN.dineroProm
+FROM Equipo_Entrenador A, 
+	(	SELECT P.id as Id, P.nombre as NombreP ,E.id as IdE, E.nombre as NombreE, E.dinero as dinero
+		FROM Pokemon P, Entrenador E) T1,
+	(	SELECT AVG(dinero) AS dineroProm
+		FROM Entrenador) DIN
+WHERE A.id_pokemon = T1.Id and A.id_entrenador = T1.IdE AND T1.dinero > DIN.dineroProm;
+
+
 --Cadena Evolutiva
 SELECT *
 FROM Pokemon
