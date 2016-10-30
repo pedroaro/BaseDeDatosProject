@@ -1,6 +1,6 @@
 CREATE TABLE Pokemon(
 	id NUMBER CHECK (id >= 0) PRIMARY KEY,
-	nombre VARCHAR2(50) NOT NULL,
+	nombre VARCHAR2(20) NOT NULL,
 	hp NUMBER CHECK (hp >= 0),
 	ataque NUMBER CHECK (ataque >= 0),
 	defensa NUMBER CHECK (defensa >= 0),
@@ -14,7 +14,7 @@ CREATE TABLE Pokemon(
 
 CREATE TABLE Tipo(
 	id NUMBER CHECK (id >= 0) PRIMARY KEY,
-	nombre VARCHAR2(50) NOT NULL
+	nombre VARCHAR2(20) NOT NULL
 );
 
 CREATE TABLE Tipo_Efectivo_Tipo(
@@ -36,7 +36,7 @@ CREATE TABLE Pokemon_Tipo(
 
 CREATE TABLE Habilidad(
 	id NUMBER PRIMARY KEY CHECK (id >= 0),
-	nombre VARCHAR2(50) NOT NULL,
+	nombre VARCHAR2(20) NOT NULL,
 	descripcion VARCHAR2(50)
 );
 
@@ -48,8 +48,8 @@ CREATE TABLE Pokedex(
 
 CREATE TABLE Entrenador(
 	id NUMBER CHECK (id >= 0) PRIMARY KEY,
-	nombre VARCHAR2(50) NOT NULL,
-	pueblo_origen VARCHAR2(50),
+	nombre VARCHAR2(20) NOT NULL,
+	pueblo_origen VARCHAR2(20),
 	dinero NUMBER CHECK (dinero >= 0),
 	fecha_inicio DATE,
 	id_pokedex NUMBER CHECK (id_pokedex >= 0),
@@ -58,8 +58,8 @@ CREATE TABLE Entrenador(
 
 CREATE TABLE Ataque(
 	id NUMBER CHECK (id >= 0) PRIMARY KEY,
-	nombre VARCHAR2(50) NOT NULL,
-	categoria VARCHAR2(50) CHECK(categoria = 'Ataque especial' OR categoria = 'Ataque físico'),
+	nombre VARCHAR2(20) NOT NULL,
+	categoria VARCHAR2(15) CHECK(categoria = 'Ataque especial' OR categoria = 'Ataque físico'),
 	poder NUMBER CHECK (poder >= 0),
 	presicion NUMBER CHECK (presicion >= 0),
 	cantidad_veces NUMBER CHECK (cantidad_veces >= 0),
@@ -83,7 +83,7 @@ CREATE TABLE Resumen_Torneo(
 CREATE TABLE Equipo_Entrenador(
 	id_entrenador NUMBER CHECK (id_entrenador >= 0),
 	id_pokemon NUMBER CHECK (id_pokemon >= 0),
-	genero VARCHAR2(20) CHECK (genero = 'M' OR genero = 'F' OR genero = 'N/A'),
+	genero VARCHAR2(4) CHECK (genero = 'M' OR genero = 'F' OR genero = 'N/A'),
 	nivel NUMBER CHECK (nivel >= 1 AND nivel <= 100),
 	exp_actual NUMBER CHECK (exp_actual >= 0),
 	exp_necesaria NUMBER CHECK (exp_necesaria >= 0),
@@ -128,7 +128,7 @@ CREATE TABLE Batalla(
 --DROP TABLE Habilidad CASCADE CONSTRAINTS;
 --DROP TABLE Entrenador CASCADE CONSTRAINTS;
 --DROP TABLE Ataque CASCADE CONSTRAINTS;
---DROP TABLE Pokedex CASCADE CONSTRAINTS;
+--DROP TABLE Pokedex CASCADE CONSTRAINTS; 
 --DROP TABLE Resumen_Torneo;
 --DROP TABLE Equipo_Entrenador;
 --DROP TABLE Batalla;
