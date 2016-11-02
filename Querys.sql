@@ -24,6 +24,35 @@ FROM Entrenador E,
 		ORDER BY pokemones DESC) T1
 WHERE E.id_pokedex = T1.id AND ROWNUM<= 5;
 
+--C--Pokemon Ganador Summary
+SELECT P.*, A.nivel, at1.Ataque_1, at2.Ataque_2, at3.Ataque_3, at4.Ataque_4, T.nombre as Tipo1 , Ti.nombre as Tipo2
+FROM Pokemon P, Equipo_Entrenador A, Pokemon_Tipo PT , Tipo T, Tipo Ti,
+	(	SELECT id as ataque1, nombre as Ataque_1
+		FROM Ataque) at1,
+	(	SELECT id as ataque2, nombre as Ataque_2
+		FROM Ataque) at2,
+	(	SELECT id as ataque3, nombre as Ataque_3
+		FROM Ataque) at3,
+	(	SELECT id as ataque4, nombre as Ataque_4
+		FROM Ataque) at4
+WHERE P.id IN 
+	(	SELECT pokemon_ganador
+		FROM Batalla
+		WHERE entrenador_ganador IS NOT NULL AND id_batalla IN 
+			(	SELECT id_batalla
+				FROM Resumen_Torneo
+				WHERE fase = 'Final'
+				)
+		)
+	AND A.id_pokemon = P.Id AND A.id_entrenador IN 
+	(	SELECT Ganador
+				FROM Resumen_Torneo
+				WHERE fase = 'Final'
+	)
+	AND A.id_ataque1=at1.ataque1 AND A.id_ataque2=at2.ataque2 AND A.id_ataque3=at3.ataque3 AND A.id_ataque4=at4.ataque4
+	AND PT.id_pokemon = P.id AND PT.id_tipo1 = T.id AND PT.id_tipo2 = Ti.id
+	;
+
 --D--Imprimir equipo que tenga mas dinero que el promedio
 SELECT T1.NombreP, T1.NombreE, T1.dinero, DIN.dineroProm
 FROM Equipo_Entrenador A, 
