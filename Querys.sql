@@ -150,3 +150,13 @@ FROM Equipo_Entrenador A, Pokemon_Tipo PKT,
 		FROM Tipo) Tipot
 WHERE A.id_pokemon = T1.Id AND A.id_entrenador = T1.IdE AND T1.canti > VI.vistosprom AND A.id_ataque1= at1.ataque1 AND A.id_ataque2= at2.ataque2
 AND A.id_ataque3= at3.ataque3 AND A.id_ataque4= at4.ataque4 AND A.id_pokemon= PKT.id_pokemon AND PKT.id_tipo1= Tipot.top1;
+
+--L-- TIPO VICTORIOSO
+SELECT TI.nombre, AUX.contador
+FROM Tipo TI,
+	(SELECT T.id as idtipo , COUNT(T.id) AS contador
+	FROM Tipo T, Pokemon_Tipo PT, Batalla B
+	WHERE (T.id = PT.id_tipo1 OR T.id = PT.id_tipo2) AND (B.id_pokemon1 = PT.id_pokemon OR B.id_pokemon2 = PT.id_pokemon)
+	GROUP BY T.id
+	ORDER BY contador DESC) AUX
+WHERE TI.id = AUX.idtipo AND ROWNUM <= 1;
