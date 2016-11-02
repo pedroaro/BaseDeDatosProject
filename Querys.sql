@@ -62,6 +62,16 @@ FROM Equipo_Entrenador A,
 		FROM Entrenador) DIN
 WHERE A.id_pokemon = T1.Id and A.id_entrenador = T1.IdE AND T1.dinero > DIN.dineroProm;
 
+--F--Nivel Promedio
+SELECT A.*, T1.entrenador, T1.NivelProm,prom.PromedioGeneral
+FROM Resumen_Torneo A, 
+(	SELECT id_entrenador as entrenador, AVG(nivel) as NivelProm
+	FROM Equipo_Entrenador
+	GROUP BY id_entrenador
+) T1,
+(	SELECT AVG(nivel) as PromedioGeneral
+	FROM Equipo_Entrenador) prom
+WHERE (A.id_entrenador1 = T1.entrenador OR A.id_entrenador2 = T1.entrenador) AND T1.NivelProm > prom.PromedioGeneral;
 
 --G--Cadena Evolutiva
 SELECT *
