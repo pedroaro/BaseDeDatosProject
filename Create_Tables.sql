@@ -12,7 +12,7 @@ CREATE TABLE Pokemon(
 	defensa_especial NUMBER CHECK (defensa_especial >= 0),
 	velocidad NUMBER CHECK (velocidad >= 0),
 	evoluciona_de NUMBER CHECK (evoluciona_de >= 0),
-	metodo_evolucion VARCHAR2(50) CHECK (metodo_evolucion = 'nivel' OR metodo_evolucion = 'item' OR metodo_evolucion = 'intercambio'),
+	metodo_evolucion VARCHAR2(15) CHECK (metodo_evolucion = 'nivel' OR metodo_evolucion = 'item' OR metodo_evolucion = 'intercambio'),
 	FOREIGN KEY (evoluciona_de) REFERENCES Pokemon (id)
 );
 
@@ -77,6 +77,7 @@ CREATE TABLE Resumen_Torneo(
 	id_entrenador2 NUMBER CHECK (id_entrenador2 >= 0),
 	fase VARCHAR2(10) CHECK (fase = 'Octavos' OR fase = 'Cuartos' OR fase = 'Semifinal' OR fase = 'Final'),
 	fecha_encuentro DATE,
+	id_batalla NUMBER CHECK (id_batalla >= 0),
 	ganador NUMBER CHECK (ganador >= 0),
 	PRIMARY KEY(id_entrenador1, id_entrenador2),
 	FOREIGN KEY (id_entrenador1) REFERENCES Entrenador(id),
