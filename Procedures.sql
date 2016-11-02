@@ -1,3 +1,5 @@
+--Procedures--
+
 CREATE or replace procedure Efectividad
 	(	id_ataque in Ataque.id%type,
 		id_pokemon in Pokemon.id%type
