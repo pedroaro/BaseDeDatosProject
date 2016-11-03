@@ -117,32 +117,6 @@ WHERE id IN (SELECT DISTINCT id_habilidad
 
 
 --K--Mayor cantidad de pokemones vistos
-SELECT T1.NombreP, T1.NombreE,Tipot.nombreT,Tipoti.nombreT, at1.nombre, at2.nombre, at3.nombre, at4.nombre , VI.vistosprom
-FROM Equipo_Entrenador A,
-	(	SELECT P.id as Id, P.nombre as NombreP ,E.id as IdE, E.nombre as NombreE, Po.cantidad_vistos as canti
-		FROM Pokemon P, Entrenador E, Pokedex Po, Tipo tip
-		WHERE E.id_pokedex= Po.id) T1,
-	(	SELECT AVG(cantidad_vistos) AS vistosprom
-		FROM Pokedex) VI,
-	(	SELECT id as ataque1, nombre
-		FROM Ataque) at1,
-	(	SELECT id as ataque2, nombre
-		FROM Ataque) at2,
-	(	SELECT id as ataque3, nombre
-		FROM Ataque) at3,
-	(	SELECT id as ataque4, nombre
-		FROM Ataque) at4,
-	(	SELECT PT.id_pokemon as Id, tip.nombre as nombreT
-		FROM Tipo tip, Pokemon_Tipo PT
-		WHERE PT.id_tipo1 = tip.id ) Tipot,
-	(	SELECT PT.id_pokemon as Id, tip.nombre as nombreT
-		FROM  Tipo tip, Pokemon_Tipo PT
-		WHERE PT.id_tipo2 = tip.id ) Tipoti
-WHERE A.id_pokemon = T1.Id AND A.id_entrenador = T1.IdE AND 
-T1.canti > VI.vistosprom AND A.id_pokemon= Tipot.Id AND 
-A.id_pokemon= Tipoti.Id AND A.id_ataque1= at1.ataque1 AND A.id_ataque2= at2.ataque2
-AND A.id_ataque3= at3.ataque3 AND A.id_ataque4= at4.ataque4;
-
 SELECT T1.NombrePokemon, T1.NombreEntrenador, T1.canti, VI.vistosprom, at1.Ataque_1, at2.Ataque_2, at3.Ataque_3, at4.Ataque_4 , Tipot.nombreT as Tipo_1
 FROM Equipo_Entrenador A, Pokemon_Tipo PKT,
 	(	SELECT P.id as Id, P.nombre as NombrePokemon ,E.id as IdE, E.nombre as NombreEntrenador, Po.cantidad_vistos as canti
@@ -161,7 +135,8 @@ FROM Equipo_Entrenador A, Pokemon_Tipo PKT,
 	(	SELECT id as top1, nombre as nombreT
 		FROM Tipo) Tipot
 WHERE A.id_pokemon = T1.Id AND A.id_entrenador = T1.IdE AND T1.canti > VI.vistosprom AND A.id_ataque1= at1.ataque1 AND A.id_ataque2= at2.ataque2
-AND A.id_ataque3= at3.ataque3 AND A.id_ataque4= at4.ataque4 AND A.id_pokemon= PKT.id_pokemon AND PKT.id_tipo1= Tipot.top1;
+AND A.id_ataque3= at3.ataque3 AND A.id_ataque4= at4.ataque4 AND A.id_pokemon= PKT.id_pokemon AND PKT.id_tipo1= Tipot.top1
+ORDER BY T1.NombreEntrenador ASC;
 
 --L-- TIPO VICTORIOSO
 SELECT TI.nombre, AUX.contador
