@@ -41,7 +41,7 @@ CREATE TABLE Pokemon_Tipo(
 CREATE TABLE Habilidad(
 	id NUMBER PRIMARY KEY CHECK (id >= 0),
 	nombre VARCHAR2(20) NOT NULL,
-	descripcion VARCHAR2(50)
+	descripcion VARCHAR2(80)
 );
 
 CREATE TABLE Pokedex(
