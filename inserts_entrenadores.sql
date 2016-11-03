@@ -1,7 +1,7 @@
 INSERT ALL
 INTO Entrenador VALUES (1, 'Pepe', 'Valencia', 49, to_date('18-08-2012', 'DD-MM-YYYY'), 1)--
 INTO Entrenador VALUES (2, 'Pedro', 'Caracas', 62, to_date('18-09-2015', 'DD-MM-YYYY'), 2) 
-INTO Entrenador VALUES (3, 'Alex', 'Vancouver', 82, to_date('18-05-2014', 'DD-MM-YYYY'), 3)
+INTO Entrenador VALUES (3, 'Alexis', 'Vancouver', 82, to_date('18-05-2014', 'DD-MM-YYYY'), 3)
 INTO Entrenador VALUES (4, 'Maria', 'Maracay', 52, to_date('16-08-2016', 'DD-MM-YYYY'), 4)
 INTO Entrenador VALUES (5, 'José', 'Valencia', 64, to_date('17-03-2012', 'DD-MM-YYYY'), 5)--
 INTO Entrenador VALUES (6, 'Ángeles', 'Caracas', 84, to_date('28-01-2014', 'DD-MM-YYYY'), 6)
