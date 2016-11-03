@@ -114,6 +114,36 @@ WHERE id IN (SELECT DISTINCT id_habilidad
 			 		FROM Entrenador
 			 		WHERE pueblo_origen = 'Valencia' AND fecha_inicio >= TO_DATE('01-01-2012','DD-MM-YYYY') AND fecha_inicio <= TO_DATE('31-12-2012','DD-MM-YYYY')));
 
+--J-- ¿Cuál fue el pokémon que ganó más batallas con su entrenador? Mostrar experiencia ganada y a cuántos pokémon derrotó.
+SELECT nombre AS Nombre_Pokemon, Entrenador, T1.Batallas_ganadas, T1.Experiencia_ganada 
+FROM Pokemon P
+JOIN(	SELECT Entrenador, Pokemon, Batallas_ganadas, Experiencia_ganada
+	FROM(	SELECT Entrenador, Pokemon, SUM(cant_ganadas) AS Batallas_ganadas, SUM(exp_ganada) AS Experiencia_ganada
+		FROM (  SELECT id_entrenador1 AS Entrenador, id_pokemon1 AS Pokemon, COUNT(*) AS cant_ganadas, SUM(exp_ganada) AS exp_ganada
+			FROM Batalla
+			WHERE id_pokemon1 = pokemon_ganador
+			GROUP BY id_entrenador1, id_pokemon1
+			UNION ALL
+			SELECT id_entrenador2, id_pokemon2, COUNT(*) AS cant_ganadas, SUM(exp_ganada) AS exp_ganada
+			FROM Batalla
+			WHERE id_pokemon2 = pokemon_ganador
+			GROUP BY id_entrenador2, id_pokemon2
+			ORDER BY Entrenador)
+		GROUP BY Entrenador, Pokemon
+		ORDER BY Entrenador)
+	 WHERE Batallas_ganadas=(SELECT MAX(cg)
+				 FROM ( SELECT SUM(cant_ganadas) AS cg
+				 	FROM(	SELECT id_entrenador1 AS Entrenador, id_pokemon1 AS Pokemon, COUNT(*) AS cant_ganadas
+						FROM Batalla
+						WHERE id_pokemon1 = pokemon_ganador
+						GROUP BY id_entrenador1, id_pokemon1
+						UNION ALL
+						SELECT id_entrenador2, id_pokemon2, COUNT(*) AS cant_ganadas
+						FROM Batalla
+						WHERE id_pokemon2 = pokemon_ganador
+						GROUP BY id_entrenador2, id_pokemon2)
+					GROUP BY Entrenador, Pokemon)) AND ROWNUM = 1) T1
+ON T1.Pokemon = P.id;
 
 
 --K--Mayor cantidad de pokemones vistos
