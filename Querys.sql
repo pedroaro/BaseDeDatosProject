@@ -50,7 +50,7 @@ WHERE P.id IN
 				WHERE fase = 'Final'
 	)
 	AND A.id_ataque1=at1.ataque1 AND A.id_ataque2=at2.ataque2 AND A.id_ataque3=at3.ataque3 AND A.id_ataque4=at4.ataque4
-	AND PT.id_pokemon = P.id AND PT.id_tipo1 = T.id AND PT.id_tipo2 = Ti.id
+	AND PT.id_pokemon = P.id AND PT.id_tipo1 = T.id AND (PT.id_tipo2 = Ti.id OR PT.id_tipo2 IS NULL)
 	;
 
 --D--Imprimir equipo que tenga mas dinero que el promedio
