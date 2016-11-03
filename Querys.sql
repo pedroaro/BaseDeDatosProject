@@ -25,7 +25,9 @@ FROM Entrenador E,
 WHERE E.id_pokedex = T1.id AND ROWNUM<= 5;
 
 --C--Pokemon Ganador Summary
-SELECT P.*, A.nivel, at1.Ataque_1, at2.Ataque_2, at3.Ataque_3, at4.Ataque_4, T.nombre as Tipo1 , Ti.nombre as Tipo2
+SELECT DISTINCT P.*, A.nivel, at1.Ataque_1, at2.Ataque_2, at3.Ataque_3, at4.Ataque_4, T.nombre as Tipo1 ,
+CASE 	WHEN PT.id_tipo2 IS NULL THEN ''
+		ELSE Ti.nombre END Tipo2
 FROM Pokemon P, Equipo_Entrenador A, Pokemon_Tipo PT , Tipo T, Tipo Ti,
 	(	SELECT id as ataque1, nombre as Ataque_1
 		FROM Ataque) at1,
@@ -147,8 +149,10 @@ ON T1.Pokemon = P.id;
 
 
 --K--Mayor cantidad de pokemones vistos
-SELECT T1.NombrePokemon, T1.NombreEntrenador, T1.canti, VI.vistosprom, at1.Ataque_1, at2.Ataque_2, at3.Ataque_3, at4.Ataque_4 , Tipot.nombreT as Tipo_1
-FROM Equipo_Entrenador A, Pokemon_Tipo PKT,
+SELECT DISTINCT T1.NombrePokemon, T1.NombreEntrenador, T1.canti, VI.vistosprom, at1.Ataque_1, at2.Ataque_2, at3.Ataque_3, at4.Ataque_4 , T.nombre as Tipo1 ,
+CASE 	WHEN PKT.id_tipo2 IS NULL THEN ''
+		ELSE Ti.nombre END Tipo2
+FROM Equipo_Entrenador A, Pokemon_Tipo PKT,Tipo T, Tipo Ti,
 	(	SELECT P.id as Id, P.nombre as NombrePokemon ,E.id as IdE, E.nombre as NombreEntrenador, Po.cantidad_vistos as canti
 		FROM Pokemon P, Entrenador E, Pokedex Po
 		WHERE E.id_pokedex= Po.id) T1,
@@ -161,11 +165,9 @@ FROM Equipo_Entrenador A, Pokemon_Tipo PKT,
 	(	SELECT id as ataque3, nombre as Ataque_3
 		FROM Ataque) at3,
 	(	SELECT id as ataque4, nombre as Ataque_4
-		FROM Ataque) at4,
-	(	SELECT id as top1, nombre as nombreT
-		FROM Tipo) Tipot
+		FROM Ataque) at4
 WHERE A.id_pokemon = T1.Id AND A.id_entrenador = T1.IdE AND T1.canti > VI.vistosprom AND A.id_ataque1= at1.ataque1 AND A.id_ataque2= at2.ataque2
-AND A.id_ataque3= at3.ataque3 AND A.id_ataque4= at4.ataque4 AND A.id_pokemon= PKT.id_pokemon AND PKT.id_tipo1= Tipot.top1
+AND A.id_ataque3= at3.ataque3 AND A.id_ataque4= at4.ataque4 AND A.id_pokemon= PKT.id_pokemon AND PKT.id_tipo1 = T.id AND (PKT.id_tipo2 = Ti.id OR PKT.id_tipo2 IS NULL)
 ORDER BY T1.NombreEntrenador ASC;
 
 --L-- TIPO VICTORIOSO
