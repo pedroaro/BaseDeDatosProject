@@ -40,7 +40,7 @@ CREATE OR REPLACE FUNCTION  Tipo_Ataque(id_ataque in Ataque.id%type)
 	END;
 /
 
-CREATE OR REPLACE FUNCTION  Efectivo(id_ataque in Ataque.id%type, id_pokemon in Pokemon.id%type)
+CREATE OR REPLACE FUNCTION  Efectivo1(id_ataque in Ataque.id%type, id_pokemon in Pokemon.id%type)
 	RETURN NUMBER
 	IS
 		ef NUMBER;
@@ -48,6 +48,23 @@ CREATE OR REPLACE FUNCTION  Efectivo(id_ataque in Ataque.id%type, id_pokemon in 
 		SELECT efectividad INTO ef
 		FROM Tipo_Efectivo_Tipo
 		WHERE id_tipo1 = Tipo_Ataque(id_ataque) AND id_tipo2 = Tipo1_Pokemon(id_pokemon);
+		RETURN (ef);
+	END;
+/
+
+
+CREATE OR REPLACE FUNCTION  Efectivo2(id_ataque in Ataque.id%type, id_pokemon in Pokemon.id%type)
+	RETURN NUMBER
+	IS
+		ef NUMBER;
+	BEGIN
+		IF(Tipo2_Pokemon(id_pokemon) = -1) THEN
+			ef:= 1;
+		ELSE
+			SELECT efectividad INTO ef
+			FROM Tipo_Efectivo_Tipo
+			WHERE id_tipo1 = Tipo_Ataque(id_ataque) AND id_tipo2 = Tipo2_Pokemon(id_pokemon);
+		END IF;
 		RETURN (ef);
 	END;
 /
