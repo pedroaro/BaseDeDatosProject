@@ -104,6 +104,18 @@ FROM (
 	ORDER BY PODER DESC) B
 WHERE ROWNUM<= 10;
 
+
+--I-- información de las habilidades de los pokémon de los entrenadores de Valencia que iniciaron su viaje hace 4 años
+SELECT *
+FROM habilidad
+WHERE id IN (SELECT DISTINCT id_habilidad
+		FROM Equipo_Entrenador
+		WHERE id_entrenador IN (SELECT id
+			 		FROM Entrenador
+			 		WHERE pueblo_origen = 'Valencia' AND fecha_inicio >= TO_DATE('01-01-2012','DD-MM-YYYY') AND fecha_inicio <= TO_DATE('31-12-2012','DD-MM-YYYY')));
+
+
+
 --K--Mayor cantidad de pokemones vistos
 SELECT T1.NombreP, T1.NombreE,Tipot.nombreT,Tipoti.nombreT, at1.nombre, at2.nombre, at3.nombre, at4.nombre , VI.vistosprom
 FROM Equipo_Entrenador A,
