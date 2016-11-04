@@ -20,6 +20,7 @@ BEGIN
 						INSERT INTO Resumen_Torneo
 						VALUES (:NEW.id_entrenador1, :NEW.id_entrenador2, 'Final', TO_DATE('2016-11-15','YYYY-MM-DD'),:NEW.id_batalla, :NEW.entrenador_ganador);
 		END IF;
+		UPDATE Entrenador SET dinero = dinero + :NEW.dinero_ganado WHERE id = :NEW.entrenador_ganador;
 	END IF;
 END;
 /
