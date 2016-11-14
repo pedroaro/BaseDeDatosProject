@@ -45,10 +45,15 @@ CREATE OR REPLACE FUNCTION  Efectivo1(id_ataque in Ataque.id%type, id_pokemon in
 	IS
 		ef NUMBER;
 	BEGIN
+	BEGIN
 		SELECT efectividad INTO ef
 		FROM Tipo_Efectivo_Tipo
 		WHERE id_tipo1 = Tipo_Ataque(id_ataque) AND id_tipo2 = Tipo1_Pokemon(id_pokemon);
-		RETURN (ef);
+		EXCEPTION  
+ 			when no_data_found then
+ 				ef:= 1;
+ 	END;
+ 	RETURN (ef);
 	END;
 /
 
@@ -58,6 +63,7 @@ CREATE OR REPLACE FUNCTION  Efectivo2(id_ataque in Ataque.id%type, id_pokemon in
 	IS
 		ef NUMBER;
 	BEGIN
+	BEGIN
 		IF(Tipo2_Pokemon(id_pokemon) = -1) THEN
 			ef:= 1;
 		ELSE
@@ -65,6 +71,10 @@ CREATE OR REPLACE FUNCTION  Efectivo2(id_ataque in Ataque.id%type, id_pokemon in
 			FROM Tipo_Efectivo_Tipo
 			WHERE id_tipo1 = Tipo_Ataque(id_ataque) AND id_tipo2 = Tipo2_Pokemon(id_pokemon);
 		END IF;
+	EXCEPTION  
+ 			when no_data_found then
+ 				ef:= 1;
+ 	END;
 		RETURN (ef);
 	END;
 /
