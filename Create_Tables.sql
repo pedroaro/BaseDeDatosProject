@@ -1,7 +1,7 @@
 set lines 256
 set trimout on
 set tab off
-
+--hello
 CREATE TABLE Pokemon(
 	id NUMBER CHECK (id >= 0) PRIMARY KEY,
 	nombre VARCHAR2(20) NOT NULL,
